@@ -1,0 +1,35 @@
+name: RDO Daily Challenges Bot
+
+on:
+  schedule:
+    # يشتغل كل يوم الساعة 6:00 صباحاً UTC (وقت تجديد التحديات)
+    - cron: '0 6 * * *'
+    # مرة إضافية الساعة 6:00 مساءً UTC للتذكير
+    - cron: '0 18 * * *'
+  
+  # يسمح بالتشغيل اليدوي من GitHub interface
+  workflow_dispatch:
+
+jobs:
+  send-challenges:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+    
+    - name: Run RDO Challenges Bot
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      run: |
+        python rdo_challenges_bot.py
