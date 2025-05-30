@@ -1,0 +1,54 @@
+# ๐ฎ ุจูุช ุชุญุฏูุงุช Red Dead Online ููุฏูุณููุฑุฏ
+
+ุจูุช ุชููุงุฆู ูุฑุณู ุงูุชุญุฏูุงุช ุงูููู…ูุฉ ููุนุจุฉ Red Dead Online ุฅูู ุฎุงุฏู… Discord ุงูุฎุงุต ุจูุ ูุดุชุบู ู…ุฌุงูุงู ูู…ุฏู ุงูุญูุงุฉ ุนุจุฑ GitHub Actions!
+
+## โจ ุงูู…ู…ูุฒุงุช
+Expand
+README.md
+4 KB
+name: RDO Daily Challenges Bot
+
+on:
+  schedule:
+    # يشتغل كل يوم الساعة 6:00 صباحاً UTC (وقت تجديد التحديات)
+    - cron: '0 6 * * *'
+Expand
+daily-challenges.yml
+1 KB
+•github/workflows/daily-challenges.yml
+name: RDO Daily Challenges Bot
+
+on:
+  schedule:
+    
+cron: '0 6 * * '
+  
+cron: '0 18,
+ * *'
+workflow_dispatch:,
+
+jobs:
+  send-challenges:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+name: Checkout repository
+    uses: actions/checkout@v4
+name: Set up Python
+uses: actions/setup-python@v4
+with:
+  python-version: '3.9'
+
+,
+name: Install dependencies
+run: |
+  python -m pip install --upgrade pip
+  pip install requests
+
+,
+name: Run RDO Challenges Bot
+env:
+  DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+run: |
+  python rdo_challenges_bot.py
